@@ -1,0 +1,40 @@
+.card-container {
+    .card {
+        background-color: #1a1a1a !important;
+        color: white;
+        border: 1px solid #333;
+    }
+}
+
+.dashboard-card {
+    height: 25vh !important;
+    width: 100%;
+    min-width: 0;
+    border-radius: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4) !important;
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e0e0e0;
+    margin-bottom: 0.5rem;
+}
+
+.card-subtitle {
+    color: #fff !important;
+    font-size: 0.85rem;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-top: 1rem;
+}
+
