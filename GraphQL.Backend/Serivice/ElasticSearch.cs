@@ -77,6 +77,19 @@ namespace GraphQLDemo.Serivice
         }
 
 
+        public async Task<List<AppInsights>> GetData(string indexName, string text)
+        {
+            var client = await ConnectToElasticSearch();
+
+            var response = await client.SearchAsync<AppInsights>(s => s
+                .Indices(indexName)
+                .Query(q => q.QueryString(qs => qs.Query(text)))
+            );
+
+            return response.Documents.ToList();
+        }
+
+
         //public async bool AddDocuments()
         //{
         //    try
