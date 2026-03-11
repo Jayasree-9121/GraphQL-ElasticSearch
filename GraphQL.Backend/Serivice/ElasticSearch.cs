@@ -64,21 +64,39 @@ namespace GraphQLDemo.Serivice
             }
 
 
-            //public async bool AddDocuments()
-            //{
-            //    try
-            //    {
-            //        var client = await ConnectToElasticSearch();
-            //        var index = await client.Indices.CreateAsync("Vendors");
-            //        var 
-            //        return true;
-            //    }catch(Exception ex)
-            //    {
-            //        return false;
-            //    }
-            //}
+        //public async bool AddDocuments()
+        //{
+        //    try
+        //    {
+        //        var client = await ConnectToElasticSearch();
+        //        var index = await client.Indices.CreateAsync("Vendors");
+        //        var 
+        //        return true;
+        //    }catch(Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
 
-            public async Task<ElasticsearchClient> ConnectToElasticSearch()
+
+        public async Task<List<object>> GetDataByIndex(string indexName , string text)
+        {
+            try
+            {
+                var client = await ConnectToElasticSearch();
+                //var response = await client.SearchAsync<object>(x => x.Indices("*"));
+                var response = await client.SearchAsync<object>(s => s.Indices(indexName).Query(q => q.QueryString(qs => qs.Query(text))));
+                var vendors = response.Documents.ToList();
+                return vendors;
+            }
+            catch (Exception ex)
+            {
+
+                return new List<object>();
+            }
+        }
+
+        public async Task<ElasticsearchClient> ConnectToElasticSearch()
             {
                 string cloudId = "Application_Insights:dXMtY2VudHJhbDEuZ2NwLmVsYXN0aWMuY2xvdWQkYmRjZDMwOWU5ZGVhNGVmNWFmMTAyMmFkNDI0NTYxYjMuZXMkYmRjZDMwOWU5ZGVhNGVmNWFmMTAyMmFkNDI0NTYxYjMua2I=";
                 string apiKey = "NXNrRzBwd0I4MElScGFnUHFScXM6UTBQSnZKaFN0U2MzQ3poYVBqVk1DQQ==";
