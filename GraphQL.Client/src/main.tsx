@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom/client";
 import { ApolloProvider } from "@apollo/client/react";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import client from "./apolloClient";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -13,6 +14,8 @@ if (!rootElement) {
 
 ReactDOM.createRoot(rootElement).render(
   <ApolloProvider client={client}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </ApolloProvider>
 );

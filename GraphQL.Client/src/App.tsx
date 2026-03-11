@@ -1,32 +1,44 @@
+import { useState } from "react";
 import './App.css'
 import { Dashboard } from './Components/Dashboard/Dashboard'
 import { Header } from './Components/Header/Header'
 import { Sidebar } from './Components/Sidebar/Sidebar'
 import { Transaction } from './Components/Transaction/Transaction'
 import UserList from './UserList'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import type { Application } from "./Interface/Application";
 
 function App() {
+    const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
+    const navigate = useNavigate();
 
-  return (
-    <>
-      {/* <UserList /> */}
-      <Header />
-      <div className='d-flex dashboard-body'>
-        <Sidebar />
-        {/* <Dashboard /> */}
+    const handleSelectApplication = (app: Application | null) => {
+        setSelectedApplication(app);
+        if (app) {
+            navigate('/transaction');
+        }
+    };
 
-        <BrowserRouter>
+    const handleDashboardClick = () => {
+        setSelectedApplication(null);
+        navigate('/');
+    };
 
-          {/* Routes */}
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/transaction" element={<Transaction />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </>
-  )
+    return (
+        <>
+            {/* <UserList /> */}
+            <Header applicationName={selectedApplication?.name} />
+            <div className='d-flex dashboard-body'>
+                <Sidebar onDashboardClick={handleDashboardClick} />
+
+                {/* Routes */}
+                <Routes>
+                    <Route path="/" element={<Dashboard onSelectApplication={handleSelectApplication} />} />
+                    <Route path="/transaction" element={<Transaction applicationName={selectedApplication?.name} />} />
+                </Routes>
+            </div>
+        </>
+    )
 }
 
 export default App

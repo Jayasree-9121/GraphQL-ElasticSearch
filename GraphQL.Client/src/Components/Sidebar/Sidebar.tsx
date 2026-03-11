@@ -1,23 +1,23 @@
-// import './Sidebar.scss'
-// export const Sidebar = () =>{
-//     return(
-//         <>
-//             <div className="sidebar-container d-flex justify-content-center align-items-center text-white flex-column">
-//                 <div></div>
-//             </div>
-//         </>
-//     )
-// }
-
-
 import './Sidebar.scss'
 import { MdDashboard, MdSearch } from "react-icons/md"
+import { Link, useLocation } from "react-router-dom";
 
-export const Sidebar = () => {
+interface ISidebarProps {
+    onDashboardClick: () => void;
+}
+
+export const Sidebar = ({ onDashboardClick }: ISidebarProps) => {
+    const location = useLocation();
+    const isDashboard = location.pathname === '/';
+
     return (
         <div className="sidebar-container">
 
-            <div className="sidebar-item active">
+            <div 
+                className={`sidebar-item ${isDashboard ? 'active' : ''}`}
+                onClick={onDashboardClick}
+                style={{ cursor: 'pointer' }}
+            >
                 <MdDashboard size={22} />
                 <span>Dashboard</span>
             </div>

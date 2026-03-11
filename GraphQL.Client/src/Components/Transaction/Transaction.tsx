@@ -1,60 +1,21 @@
-// import './Transaction.scss'
-// export const Transaction = () => {
-//     return (
-//         <>
-//             <div className='' style={{width:'90vw'}}>
-//                 <div className='p-3'>
-//                     <div className='d-flex justify-content-between'>
-//                         <div className='col-6 d-flex flex-column justify-content-start'>
-//                             <h3 className='text-white'>Transaction Search</h3>
-//                             <p className='text-white'>Query and analyze application tetemetry and trace data</p>
-//                         </div>
-//                         <div className='justify-content-end col-6'>
-//                             <div className='d-flex justify-content-end'>
-//                                 <button className='btn btn-primary'>Query</button>
-//                                 <button className='btn btn-secondary mx-2'>Save</button>
-//                             </div>
-//                         </div>
-//                     </div>
-
-//                     <div className='transaction-filter-container d-flex col-12'>
-//                         <div className='text-white col-3'>error type
-
-//                         </div>
-//                         <div className='text-white col-3'>error type</div>
-//                         <div className='text-white col-3'>error type</div>
-//                         <div className='text-white col-3'>error type</div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </>
-//     )
-// }
-
-
-
-
-
-
-
-
 import './Transaction.scss'
 
-export const Transaction = () => {
+interface ITransactionProps {
+    applicationName?: string;
+}
+
+export const Transaction = ({ applicationName }: ITransactionProps) => {
     return (
         <div className='transaction-page container-fluid d-flex flex-column gap-5'>
 
             {/* Header */}
             <div className='transaction-header d-flex justify-content-between align-items-center mx-2'>
                 <div>
-                    <h2>Transaction Search</h2>
+                    <h2>{applicationName ? `${applicationName} - Transaction Search` : 'Transaction Search'}</h2>
                     <p>Query and analyze application telemetry and trace data.</p>
                 </div>
 
                 <div className='d-flex'>
-                    {/* <button className='btn run-btn'>▶ Run Query</button>
-                    <button className='btn save-btn ms-2'>💾 Save</button> */}
-
                     <button className='btn btn-primary'>Query</button>
                     <button className='btn btn-secondary mx-2'>Save</button>
                 </div>
