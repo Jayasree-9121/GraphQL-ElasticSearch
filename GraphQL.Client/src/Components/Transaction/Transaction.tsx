@@ -1,17 +1,65 @@
+import { useEffect, useState } from 'react';
 import './Transaction.scss'
+import type { TransactionLogs } from '../../Interface/Transaction';
 
 interface ITransactionProps {
     applicationName?: string;
 }
 
-export const Transaction = ({ applicationName }: ITransactionProps) => {
+export const Transaction = (props: ITransactionProps) => {
+    const [errorLogs, setErrorLogs] = useState<TransactionLogs[]>([]);
+    const [loader, setLoader] = useState(false);
+    const [errors, setErrors] = useState();
+
+const fetchUserData = async (text: string) => {
+    try {
+        const response = await fetch('https://localhost:7020/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query: `
+                query ($text: String!) {
+                    searchElasticData(text: $text) {
+                        session_Id
+                        user_Id
+                        type
+                    }
+                }
+                `,
+                variables: { text }
+            }),
+        });
+
+        const result = await response.json();
+
+        if (result.errors) {
+            setErrors(result.errors);
+            return;
+        }
+
+        setErrorLogs(result.data.user);
+        setLoader(false);
+        console.log(result.data.user);
+
+    } catch (error) {
+        console.error("Fetch error:", error);
+    }
+};
+
+    useEffect(()=>{
+        fetchUserData("uncaught");
+    },[errorLogs])
+
+
     return (
         <div className='transaction-page container-fluid d-flex flex-column gap-5'>
 
             {/* Header */}
             <div className='transaction-header d-flex justify-content-between align-items-center mx-2'>
                 <div>
-                    <h2>{applicationName ? `${applicationName} - Transaction Search` : 'Transaction Search'}</h2>
+                    <h2>{props.applicationName ? `${props.applicationName} - Transaction Search` : 'Transaction Search'}</h2>
                     <p>Query and analyze application telemetry and trace data.</p>
                 </div>
 
