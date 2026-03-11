@@ -6,9 +6,8 @@ namespace GraphQLDemo.GraphQL
 {
     public class AppMutation : ObjectGraphType
     {
-        public AppMutation(IUserService userService)
+        public AppMutation()
         {
-            // 🔹 Create User
             Field<UserType>(
                 "createUser",
                 arguments: new QueryArguments(
@@ -16,12 +15,13 @@ namespace GraphQLDemo.GraphQL
                 ),
                 resolve: context =>
                 {
+                    var userService = context.RequestServices.GetRequiredService<IUserService>();
                     var name = context.GetArgument<string>("name");
+
                     return userService.CreateUser(name);
                 }
             );
 
-            // 🔹 Create Order
             Field<OrderType>(
                 "createOrder",
                 arguments: new QueryArguments(
@@ -30,6 +30,8 @@ namespace GraphQLDemo.GraphQL
                 ),
                 resolve: context =>
                 {
+                    var userService = context.RequestServices.GetRequiredService<IUserService>();
+
                     var userId = context.GetArgument<int>("userId");
                     var total = context.GetArgument<decimal>("total");
 

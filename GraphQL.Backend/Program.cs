@@ -1,6 +1,5 @@
 ﻿using GraphQL;
 using GraphQL.Types;
-using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using GraphQLDemo.Contracts;
 using GraphQLDemo.GraphQL;
@@ -8,47 +7,64 @@ using GraphQLDemo.Serivice;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register services
-builder.Services.AddSingleton<IUserService, UserService>();
 
-// Register GraphQL types
+// Application Services (Scoped)
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IElasticSearch, ElasticSearch>();
+
+
+// GraphQL Types (Singleton)
 builder.Services.AddSingleton<UserType>();
 builder.Services.AddSingleton<OrderType>();
 builder.Services.AddSingleton<ProductType>();
+builder.Services.AddSingleton<AppInsightsType>();
+
+// GraphQL Query & Mutation (Singleton)
 builder.Services.AddSingleton<AppQuery>();
-builder.Services.AddSingleton<ISchema, AppSchema>();
 builder.Services.AddSingleton<AppMutation>();
-builder.Services.AddScoped<IElasticSearch,ElasticSearch>();
 
 
+// GraphQL Schema (Singleton)
+builder.Services.AddSingleton<ISchema, AppSchema>();
+
+
+// CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        policy =>
-        {
-            policy
-                .AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
 });
 
-// ✅ New Correct Way (No EnableMetrics)
+
+// GraphQL Configuration
 builder.Services.AddGraphQL(builder =>
 {
     builder
         .AddSystemTextJson()
-        .AddSchema<AppSchema>();
+        .AddSchema<AppSchema>()
+        .AddErrorInfoProvider(opt =>
+        {
+            opt.ExposeExceptionDetails = true;
+        });
 });
 
 var app = builder.Build();
 
+
+// Middleware
 app.UseCors("AllowAll");
 
-// Single endpoint
+
+// GraphQL Endpoint
 app.UseGraphQL<ISchema>("/graphql");
 
-// Playground UI
+
+// GraphQL Playground
 app.UseGraphQLPlayground("/playground");
+
 
 app.Run();
