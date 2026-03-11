@@ -5,6 +5,10 @@ namespace GraphQLDemo.Serivice
 {
     public class UserService : IUserService
     {
+        private IElasticSearch _ElasticSearch;
+        public UserService(IElasticSearch elasticSearch) {
+            _ElasticSearch = elasticSearch;
+        }
         private readonly List<User> _users = new()
     {
         new User { Id = 1, Name = "Nithin" },

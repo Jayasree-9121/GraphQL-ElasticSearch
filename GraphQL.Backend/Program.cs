@@ -18,6 +18,8 @@ builder.Services.AddSingleton<ProductType>();
 builder.Services.AddSingleton<AppQuery>();
 builder.Services.AddSingleton<ISchema, AppSchema>();
 builder.Services.AddSingleton<AppMutation>();
+builder.Services.AddScoped<IElasticSearch,ElasticSearch>();
+
 
 builder.Services.AddCors(options =>
 {
