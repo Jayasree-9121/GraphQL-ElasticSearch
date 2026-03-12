@@ -1,5 +1,6 @@
-export interface TransactionLogs{
+export interface TransactionLogs {
     sessionId: string;
     userId: string;
-    type: "string"
+    type: string;
 }
+

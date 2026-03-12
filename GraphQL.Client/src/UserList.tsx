@@ -32,7 +32,7 @@ interface GetUserVariables {
 function UserList() {
   const { loading, error, data } =
 
-    useQuery<GetUsersResponse, GetUserVariables>(
+    useQuery<GetUsersResponse, GetUserVariables>( 
       GET_USERS,
       {
         variables: { id: 2 },

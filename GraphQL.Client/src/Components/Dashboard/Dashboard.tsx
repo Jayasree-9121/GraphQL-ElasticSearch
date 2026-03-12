@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import { DasboardCard } from "./DashboardCards/DashboardCard";
 import './Dashboard.scss'
@@ -7,7 +6,7 @@ import type { Application } from "../../Interface/Application";
 
 
 const applications: Application[] = [
-    { id: "1", name: "MID", description: "Merchant ID Management System" },
+    { id: "1", name: "MID", description: "Market Intelligence Data" },
     { id: "2", name: "BOM", description: "Bill of Materials Tracker" },
     { id: "3", name: "NOP", description: "Number Order Processing" },
     { id: "4", name: "PO TRACKER", description: "Purchase Order Tracking System" },
