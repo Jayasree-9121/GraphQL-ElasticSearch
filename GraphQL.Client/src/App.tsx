@@ -32,12 +32,10 @@ function App() {
 
     return (
         <>
-            {/* <UserList /> */}
             <Header applicationName={selectedApplication?.name} />
             <div className='d-flex dashboard-body'>
                 <Sidebar onDashboardClick={handleDashboardClick} />
 
-                {/* Routes */}
                 <Routes>
                     <Route path="/" element={<Dashboard onSelectApplication={handleSelectApplication} />} />
                     <Route path="/transaction/:applicationName" element={<Transaction applicationName={selectedApplication?.name} />} />

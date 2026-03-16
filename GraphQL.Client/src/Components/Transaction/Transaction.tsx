@@ -12,7 +12,6 @@ export const Transaction = (props: ITransactionProps) => {
     const [errors, setErrors] = useState<string | null>(null);
     const [viewMode, setViewMode] = useState<'json' | 'table'>('json');
 
-    // Filter states
     const [errorType, setErrorType] = useState('');
     const [timeRange, setTimeRange] = useState('Last 24 Hours');
     const [operationName, setOperationName] = useState('');
@@ -143,7 +142,6 @@ export const Transaction = (props: ITransactionProps) => {
     return (
         <div className='transaction-page container-fluid d-flex flex-column gap-5'>
 
-            {/* Header */}
             <div className='transaction-header d-flex justify-content-between align-items-center mx-2'>
                 <div>
                     <h2>{props.applicationName ? `${props.applicationName} - Transaction Search` : 'Transaction Search'}</h2>
@@ -156,7 +154,6 @@ export const Transaction = (props: ITransactionProps) => {
                 </div>
             </div>
 
-            {/* Filters */}
             <div className='transaction-filter-container row mx-2'>
 
                 <div className='col-md-3 filter-item'>
@@ -207,14 +204,12 @@ export const Transaction = (props: ITransactionProps) => {
 
             </div>
 
-            {/* Result Section */}
             <div className='result-section'>
 
                 <div className='result-header d-flex justify-content-between align-items-center'>
                     <h5>Result Detail</h5>
 
                     <div className='d-flex align-items-center gap-3'>
-                        {/* Toggle Buttons */}
                         <div className='view-toggle'>
                             <button
                                 className={`toggle-btn ${viewMode === 'json' ? 'active' : ''}`}
