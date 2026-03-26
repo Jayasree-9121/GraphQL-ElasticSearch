@@ -71,3 +71,41 @@ export default defineConfig([
   },
 ])
 ```
+
+
+
+[ApiController]
+[Route("api/error")]
+public class ErrorController : ControllerBase
+{
+    private readonly ErrorPipeline _pipeline;
+
+    public ErrorController(ErrorPipeline pipeline)
+    {
+        _pipeline = pipeline;
+    }
+
+    [HttpPost("analyze")]
+    public async Task<IActionResult> Analyze([FromBody] ErrorLog log)
+    {
+        var result = await _pipeline.Run(log);
+
+        return Ok(result);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//jOpCxSDi1ZPUkO599cROJUWZQF3pbRVS - apikey mistral

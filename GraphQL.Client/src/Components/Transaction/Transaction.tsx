@@ -39,36 +39,21 @@ export const Transaction = (props: ITransactionProps) => {
                 }),
             });
 
-            const result = await response.json();
+const result = await response.json();
 
-            if (result.errors) {
-                setErrors(result.errors[0]?.message || 'Unknown error');
-                setLoader(false);
-                return;
-            }
+if (result.errors) {
+    console.warn("GraphQL Errors:", result.errors);
+}
 
-            // Map the API response to TransactionLogs
-            const data = result.data?.searchElasticData || [];
-            const mappedData: TransactionLogs[] = data.map((item: any) => ({
-                sessionId: item.session_Id || '',
-                userId: item.user_Id || '',
-                type: item.type || '',
-                timestamp: item.timestamp,
-                severityLevel: item.severityLevel,
-                message: item.message,
-                operation: item.operation ? {
-                    name: item.operation.name,
-                    id: item.operation.id,
-                    parentId: item.operation.parentId
-                } : undefined,
-                exception: item.exception ? {
-                    type: item.exception.type,
-                    message: item.exception.message
-                } : undefined,
-                id: item.id
-            }));
+const data = (result.data?.searchElasticData || []).filter(Boolean);
 
-            setErrorLogs(mappedData);
+const mappedData = data.map((item: any) => ({
+    sessionId: item.session_Id || '',
+    userId: item.user_Id || '',
+    type: item.type || ''
+}));
+
+setErrorLogs(mappedData);
             setLoader(false);
 
         } catch (error) {

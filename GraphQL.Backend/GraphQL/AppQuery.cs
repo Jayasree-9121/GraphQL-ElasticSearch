@@ -1,6 +1,9 @@
-﻿using GraphQL.Types;
-using GraphQL;
+﻿using GraphQL;
+using GraphQL.Types;
 using GraphQLDemo.Contracts;
+using GraphQLDemo.Models;
+using GraphQLDemo.Pipeline;
+using System.Text.Json;
 
 namespace GraphQLDemo.GraphQL
 {
@@ -33,6 +36,24 @@ namespace GraphQLDemo.GraphQL
                     var text = context.GetArgument<string>("text");
 
                     return await elastic.GetData(text);
+                }
+            );
+
+            FieldAsync<AIResultType>(
+                "analyzeErrorWithAI",
+                arguments: new QueryArguments(
+                    new QueryArgument<StringGraphType> { Name = "message" }
+                ),
+                resolve: async context =>
+                {
+                    var pipeline = context.RequestServices.GetRequiredService<ErrorPipeline>();
+
+                    var log = new ErrorLog
+                    {
+                        Message = context.GetArgument<string>("message")
+                    };
+
+                    return await pipeline.Run(log);
                 }
             );
         }

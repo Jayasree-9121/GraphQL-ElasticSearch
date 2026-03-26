@@ -11,7 +11,7 @@ import type { Application } from "./Interface/Application";
 function App() {
     const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
     const navigate = useNavigate();
-    const { applicationName } = useParams();
+    const { applicationName } = useParams();    
     useEffect(() => {
         if (!applicationName) {
             navigate("/");

@@ -1,4 +1,5 @@
-﻿using GraphQLDemo.Contracts;
+﻿
+using GraphQLDemo.Contracts;
 using GraphQLDemo.Models;
 
 namespace GraphQLDemo.Serivice
