@@ -16,25 +16,40 @@ namespace GraphQLDemo.Serivice
 
         public async Task<ErrorAnalysisResult> Analyze(ErrorLog log)
         {
-            string systemPrompt = @"
-You are an expert software debugging AI.
+            string systemPrompt = $@"
+You are an AI debugging and business impact analysis agent.
 
-Analyze the error log and provide:
+Application Context:
+{AIConstants.MIDContext}
 
-- error_type
-- error_summary
-- possible_causes
-- occurrence_conditions
-- fix_suggestions
-- recommended_fix
+Instructions:
+{AIConstants.AIInstructions}
 
-Return JSON only.
+Analyze the given error log and return ONLY valid JSON in this EXACT format:
+
+{{
+  ""ErrorType"": """",
+  ""ErrorSummary"": """",
+  ""PossibleCauses"": [],
+  ""OccurrenceConditions"": [],
+  ""BusinessImpact"": """",
+  ""Severity"": """",
+  ""FixSuggestions"": [],
+  ""RecommendedFix"": """"
+}}
+
+Rules:
+- Do NOT use markdown
+- Do NOT wrap in ```json
+- Do NOT add explanations
+- Do NOT change JSON structure
 ";
 
             var userPrompt = JsonSerializer.Serialize(log);
 
             var response = await _llm.Chat(systemPrompt, userPrompt);
 
+            // ✅ Clean LLM response
             response = JsonHelper.CleanJson(response);
 
             try

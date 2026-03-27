@@ -11,7 +11,6 @@ namespace GraphQLDemo.Hellper
 
             input = input.Trim();
 
-            // Remove ```json or ``` wrappers
             if (input.StartsWith("```"))
             {
                 input = Regex.Replace(input, @"^```[a-zA-Z]*\s*", "");
