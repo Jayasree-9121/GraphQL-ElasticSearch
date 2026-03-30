@@ -106,8 +106,8 @@ namespace GraphQLDemo.Serivice
 
         public async Task<ElasticsearchClient> ConnectToElasticSearch()
             {
-                string cloudId = "Application_Insights:dXMtY2VudHJhbDEuZ2NwLmVsYXN0aWMuY2xvdWQkYmRjZDMwOWU5ZGVhNGVmNWFmMTAyMmFkNDI0NTYxYjMuZXMkYmRjZDMwOWU5ZGVhNGVmNWFmMTAyMmFkNDI0NTYxYjMua2I=";
-                string apiKey = "NXNrRzBwd0I4MElScGFnUHFScXM6UTBQSnZKaFN0U2MzQ3poYVBqVk1DQQ==";
+                string cloudId = "My_Observability_project:dXMtY2VudHJhbDEuZ2NwLmVsYXN0aWMuY2xvdWQkZGU4MmU0YWQ5NTQyNGQ3ZDljMWVjNjM2NDI2ZjAxZTIuZXMkZGU4MmU0YWQ5NTQyNGQ3ZDljMWVjNjM2NDI2ZjAxZTIua2I=";
+                string apiKey = "Y3dSUEpKMEJOQmJLaHJSM19FT1M6c1JHNUpHOGdaZDNSaTQxbnREWG1NQQ==";
                 var settings = new ElasticsearchClientSettings(cloudId, new ApiKey(apiKey));
                 var client = new ElasticsearchClient(settings);
                 //var response = await client.InfoAsync();  // to check connection
