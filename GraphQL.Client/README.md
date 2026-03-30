@@ -1,100 +1,282 @@
-# React + TypeScript + Vite
+# 🚀 GraphQL + ElasticSearch + AI Chatbot Integration
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Project Overview
 
-Currently, two official plugins are available:
+This project is a **full-stack intelligent search and debugging system** that integrates:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* ⚡ GraphQL API for flexible data querying
+* 🔍 Elasticsearch for high-performance log/search analytics
+* 🤖 AI Chatbot powered by LLM (e.g., OpenAI / Mistral) for automated debugging insights
 
-## React Compiler
+The system allows users to:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* Fetch application logs
+* Perform advanced search queries
+* Analyze errors using AI
+* Get intelligent troubleshooting steps
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🏗️ Architecture
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+Frontend (React)
+        ↓
+GraphQL API (.NET / Node)
+        ↓
+ElasticSearch (Logs Storage)
+        ↓
+AI Service (LLM Integration)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Technologies Used
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Backend
+
+* GraphQL Server (.NET / Node)
+* ElasticSearch
+* REST APIs (for AI integration)
+
+### Frontend
+
+* React + TypeScript
+* Apollo Client (GraphQL)
+
+### AI Integration
+
+* OpenAI / Mistral API
+* Prompt Engineering for debugging insights
+
+---
+
+## 📂 Project Structure
+
+```
+GraphQL-ElasticSearch/
+│
+├── GraphQL.Backend/
+│   ├── Queries/
+│   ├── Mutations/
+│   ├── Services/
+│   ├── Models/
+│   └── appsettings.json
+│
+├── Frontend/
+│   ├── components/
+│   ├── services/
+│   └── pages/
+│
+└── README.md
 ```
 
+---
 
+## 🔄 How GraphQL Works in This Project
 
-[ApiController]
-[Route("api/error")]
-public class ErrorController : ControllerBase
-{
-    private readonly ErrorPipeline _pipeline;
+### ✅ Why GraphQL?
 
-    public ErrorController(ErrorPipeline pipeline)
-    {
-        _pipeline = pipeline;
-    }
+* Fetch only required data
+* Avoid multiple API calls
+* Flexible query structure
 
-    [HttpPost("analyze")]
-    public async Task<IActionResult> Analyze([FromBody] ErrorLog log)
-    {
-        var result = await _pipeline.Run(log);
+### 🔹 Example Query
 
-        return Ok(result);
-    }
+```graphql
+query {
+  searchElasticData(query: "error", limit: 10) {
+    session_Id
+    user_Id
+    message
+  }
 }
+```
 
+### 🔹 Flow
 
+1. Client sends GraphQL query
+2. Resolver processes request
+3. Calls ElasticSearch service
+4. Returns structured JSON response
+
+---
+
+## 🔍 ElasticSearch Integration
+
+### ✅ Purpose
+
+* Store logs and exceptions
+* Perform fast full-text search
+* Filter and analyze errors
+
+### 🔹 Data Indexed
+
+* session_Id
+* user_Id
+* error message
+* timestamp
+* stack trace
+
+### 🔹 Example Query (ElasticSearch)
+
+```json
+{
+  "query": {
+    "match": {
+      "message": "exception"
+    }
+  }
+}
+```
+
+### 🔹 Integration Flow
+
+1. Logs pushed to ElasticSearch
+2. GraphQL resolver queries ElasticSearch
+3. Results returned to UI
+
+---
+
+## 🤖 AI Chatbot Integration
+
+### ✅ Purpose
+
+* Automatically analyze errors
+* Suggest debugging steps
+* Categorize issues
+
+### 🔹 How It Works
+
+1. Logs fetched from ElasticSearch
+2. Sent to AI service as prompt
+3. AI returns structured response
+
+### 🔹 Example Prompt
+
+```
+You are a debugging assistant.
+Analyze the error and return:
+- ErrorCategory
+- Technologies
+- InvestigationSteps
+- SearchQueries
+```
+
+### 🔹 Example Response
+
+```json
+{
+  "ErrorCategory": "NullReferenceException",
+  "Technologies": ["C#", ".NET"],
+  "InvestigationSteps": [
+    "Check object initialization",
+    "Validate null conditions"
+  ],
+  "SearchQueries": [
+    "NullReferenceException fix in C#"
+  ]
+}
+```
+
+---
+
+## 🔐 Security Best Practices
+
+* ❌ Do NOT store secrets in `appsettings.json`
+* ✅ Use environment variables
+* ✅ Use `.gitignore` for sensitive files
+* ✅ Use Secret Manager / Key Vault
+
+---
+
+## 🚀 Setup Instructions
+
+### 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/your-repo/GraphQL-ElasticSearch.git
+cd GraphQL-ElasticSearch
+```
+
+---
+
+### 2️⃣ Backend Setup
+
+```bash
+cd GraphQL.Backend
+dotnet restore
+dotnet run
+```
+
+---
+
+### 3️⃣ Frontend Setup
+
+```bash
+cd Frontend
+npm install
+npm start
+```
+
+---
+
+### 4️⃣ Configure ElasticSearch
+
+* Install ElasticSearch locally or use cloud
+* Update connection settings in config
+
+---
+
+### 5️⃣ Configure AI API
+
+Set API key:
+
+```bash
+setx OPENAI_API_KEY "jOpCxSDi1ZPUkO599cROJUWZQF3pbRVS"
+```
+
+---
+
+## 📊 Features
+
+* 🔍 Real-time log search
+* ⚡ GraphQL dynamic queries
+* 🤖 AI-based error analysis
+* 📈 Scalable architecture
+* 🔐 Secure configuration
+
+---
+
+## 🧠 Use Cases
+
+* Debugging production issues
+* Monitoring application logs
+* AI-assisted troubleshooting
+* Developer productivity tools
+
+---
+
+## 📌 Future Enhancements
+
+* Dashboard with analytics charts
+* Real-time alerts
+* Multi-tenant support
+* Advanced AI recommendations
+
+---
+
+## 👨‍💻 Author
+
+Developed by **Nithin Varma**
+
+---
+
+## ⭐ Contribution
+
+Feel free to fork, raise issues, and contribute!
+
+---
 
 
 
