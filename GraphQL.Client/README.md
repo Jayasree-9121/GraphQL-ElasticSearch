@@ -37,7 +37,6 @@ AI Service (LLM Integration)
 
 * GraphQL Server (.NET / Node)
 * ElasticSearch
-* REST APIs (for AI integration)
 
 ### Frontend
 
