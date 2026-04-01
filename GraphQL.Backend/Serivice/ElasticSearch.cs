@@ -107,21 +107,16 @@ namespace GraphQLDemo.Serivice
         {
             try
             {
-                // 1️⃣ message
                 if (element.TryGetProperty("message", out var msg) &&
                     !string.IsNullOrWhiteSpace(msg.GetString()))
                 {
                     return msg.GetString();
                 }
-
-                // 2️⃣ outerMessage
                 if (element.TryGetProperty("outerMessage", out var outerMsg) &&
                     !string.IsNullOrWhiteSpace(outerMsg.GetString()))
                 {
                     return outerMsg.GetString();
                 }
-
-                // 3️⃣ customDimensions (JSON string)
                 if (element.TryGetProperty("customDimensions", out var customDimProp))
                 {
                     var customDim = customDimProp.GetString();
@@ -137,7 +132,7 @@ namespace GraphQLDemo.Serivice
                     }
                 }
 
-                // 4️⃣ details (JSON array string)
+           
                 if (element.TryGetProperty("details", out var detailsProp))
                 {
                     var details = detailsProp.GetString();
@@ -158,8 +153,6 @@ namespace GraphQLDemo.Serivice
                         }
                     }
                 }
-
-                // 5️⃣ fallback to type
                 if (element.TryGetProperty("type", out var typeProp))
                 {
                     return typeProp.GetString();
@@ -185,20 +178,6 @@ namespace GraphQLDemo.Serivice
             return response.Documents.ToList();
         }
 
-
-        //public async bool AddDocuments()
-        //{
-        //    try
-        //    {
-        //        var client = await ConnectToElasticSearch();
-        //        var index = await client.Indices.CreateAsync("Vendors");
-        //        var 
-        //        return true;
-        //    }catch(Exception ex)
-        //    {
-        //        return false;
-        //    }
-        //}
 
         public async Task<ElasticsearchClient> ConnectToElasticSearch()
             {
