@@ -132,8 +132,6 @@ setErrorLogs(mappedData);
                             <th>Search Queries</th>
                             <th>Error Type</th>
                             <th>Error Summary</th>
-                            <th>Possible Causes</th>
-                            <th>Occurrence Conditions</th>
                             <th>Business Impact</th>
                             <th>Severity</th>
                             <th>Fix Suggestions</th>
@@ -149,8 +147,6 @@ setErrorLogs(mappedData);
                                 <td>{log.SearchQueries}</td>
                                 <td>{log.ErrorType}</td>
                                 <td>{log.ErrorSummary}</td>
-                                <td>{log.PossibleCauses.join(', ')}</td>
-                                <td>{log.OccurrenceConditions.join(', ')}</td>
                                 <td>{log.BusinessImpact}</td>
                                 <td>{log.Severity}</td>
                                 <td>{log.FixSuggestions.join(', ')}</td>

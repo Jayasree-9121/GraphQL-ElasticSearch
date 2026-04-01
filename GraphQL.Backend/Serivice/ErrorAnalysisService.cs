@@ -53,6 +53,9 @@ Rules:
 - Focus on identifying mismatches between GraphQL schema and resolver return types
 - Include actionable backend and schema-level fixes in FixSuggestions and RecommendedFix
 - Avoid Deplicates
+- Focus primarily on backend errors, API/GraphQL mismatches, database, or server errors. Only include frontend errors if they directly prevent data delivery or business-critical workflows.
+- Explain the business impact in terms of MID workflows: market analytics, pricing comparisons, inventory management, cloud deployments, connectivity dashboards, or strategic decision-making.
+- Response should be understandable by Business Users.
 
 Input:
 {{error_logs}}";

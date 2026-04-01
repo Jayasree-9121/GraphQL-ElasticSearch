@@ -78,7 +78,6 @@ namespace GraphQLDemo.Serivice
 
                 var response = await client.SearchAsync<JsonElement>(s => s
                     .Indices("*")
-                    .Size(100)
                     .Query(q => q.QueryString(qs => qs.Query(text)))
                 );
 
