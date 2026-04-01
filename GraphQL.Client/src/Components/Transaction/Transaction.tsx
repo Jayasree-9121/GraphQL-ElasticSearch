@@ -29,12 +29,20 @@ export const Transaction = (props: ITransactionProps) => {
                     query: `
                     query ($text: String!) {
                         searchElasticData(text: $text) {
-                            session_Id
-                            user_Id
-                            type
+                                planning {
+                                    errorCategory
+                                    technologies
+                                }
+                                analysis {
+                                  errorType
+                                  errorSummary
+                                  businessImpact
+                                  severity
+                                  fixSuggestions
+                                  recommendedFix
+                                }
                         }
-                    }
-                    `,
+                    }`,
                     variables: { text }
                 }),
             });
@@ -43,15 +51,36 @@ const result = await response.json();
 
 if (result.errors) {
     console.warn("GraphQL Errors:", result.errors);
+    setErrors(result.errors[0]?.message || 'GraphQL errors occurred');
+    setLoader(false);
+    return;
 }
 
-const data = (result.data?.searchElasticData || []).filter(Boolean);
+const rawData = result.data?.searchElasticData || [];
 
-const mappedData = data.map((item: any) => ({
-    sessionId: item.session_Id || '',
-    userId: item.user_Id || '',
-    type: item.type || ''
-}));
+const mappedData: TransactionLogs[] = [];
+const planningArr = rawData.planning || [];
+const analysisArr = rawData.analysis || [];
+const maxLen = Math.max(planningArr.length, analysisArr.length);
+
+for(let i = 0; i < maxLen; i++) {
+    const planning = planningArr[i] || {};
+    const analysis = analysisArr[i] || {};
+    mappedData.push({
+        ErrorCategory:  planning.errorCategory,
+        Technologies: planning.technologies ,
+        InvestigationSteps: analysis.investigationSteps || '',
+        SearchQueries: analysis.searchQueries || '',
+        ErrorType: analysis.errorType || '',
+        ErrorSummary: analysis.errorSummary || '',
+        PossibleCauses: analysis.possibleCauses || [],
+        OccurrenceConditions: analysis.occurrenceConditions || [],
+        BusinessImpact: analysis.businessImpact || '',
+        Severity: analysis.severity || '',
+        FixSuggestions: analysis.fixSuggestions || [],
+        RecommendedFix: analysis.recommendedFix || '',
+    })
+}
 
 setErrorLogs(mappedData);
             setLoader(false);
@@ -91,27 +120,41 @@ setErrorLogs(mappedData);
                 </div>
             );
         }
-
+        
         return (
             <div className="table-container">
                 <table className="error-logs-table">
-                    <thead>
+<thead>
                         <tr>
-                            <th>Timestamp</th>
+                            <th>Error Category</th>
+                            <th>Technologies</th>
+                            <th>Investigation Steps</th>
+                            <th>Search Queries</th>
+                            <th>Error Type</th>
+                            <th>Error Summary</th>
+                            <th>Possible Causes</th>
+                            <th>Occurrence Conditions</th>
+                            <th>Business Impact</th>
                             <th>Severity</th>
-                            <th>Message</th>
-                            <th>Operation</th>
-                            <th>Exception Type</th>
-                            <th>Session ID</th>
-                            <th>User ID</th>
+                            <th>Fix Suggestions</th>
+                            <th>Recommended Fix</th>
                         </tr>
                     </thead>
                     <tbody>
                         {errorLogs.map((log, index) => (
-                            <tr key={index}>
-                                <td>{log.type || '-'}</td>
-                                <td>{log.sessionId || '-'}</td>
-                                <td>{log.userId || '-'}</td>
+                            <tr>
+                                <td>{log.ErrorCategory}</td>
+                                <td>{log.Technologies}</td>
+                                <td>{log.InvestigationSteps}</td>
+                                <td>{log.SearchQueries}</td>
+                                <td>{log.ErrorType}</td>
+                                <td>{log.ErrorSummary}</td>
+                                <td>{log.PossibleCauses.join(', ')}</td>
+                                <td>{log.OccurrenceConditions.join(', ')}</td>
+                                <td>{log.BusinessImpact}</td>
+                                <td>{log.Severity}</td>
+                                <td>{log.FixSuggestions.join(', ')}</td>
+                                <td>{log.RecommendedFix}</td>
                             </tr>
                         ))}
                     </tbody>

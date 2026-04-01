@@ -2,7 +2,7 @@
 {
     public class AIResult
     {
-        public PlanningResult Planning { get; set; }
-        public ErrorAnalysisResult Analysis { get; set; }
+        public List<PlanningResult> Planning { get; set; }
+        public List<ErrorAnalysisResult> Analysis { get; set; }
     }
 }

@@ -23,9 +23,9 @@ namespace GraphQLDemo.Serivice
                 var model = _config["LLM:Model"];
                 var endpoint = _config["LLM:Endpoint"];
 
-                if (userPrompt.Length > 4000)
+                if (userPrompt.Length > 6000)
                 {
-                    userPrompt = userPrompt.Substring(0, 4000);
+                    userPrompt = userPrompt.Substring(0, 6000);
                 }
 
                 var body = new
@@ -37,7 +37,7 @@ namespace GraphQLDemo.Serivice
                     new { role = "user", content = userPrompt }
                 },
                     temperature = 0.2,
-                    max_tokens = 600,
+                    max_tokens = 1200,
                     top_p = 0.9
                 };
 

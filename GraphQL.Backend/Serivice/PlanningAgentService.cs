@@ -14,21 +14,21 @@ namespace GraphQLDemo.Serivice
             _llm = llm;
         }
 
-        public async Task<PlanningResult> RunPlanningAgent(ErrorLog log)
+        public async Task<List<PlanningResult>> RunPlanningAgent(ErrorLog log)
         {
             string systemPrompt = @"
 You are a senior debugging planning agent.
 
 Strictly return JSON in this format:
 
-{
+[{
   ""ErrorCategory"": """",
   ""Technologies"": [],
   ""InvestigationSteps"": [],
   ""SearchQueries"": []
-}
-
+}]
 Do not add explanations.
+Avoid deplicates.
 ";
 
             var userPrompt = JsonSerializer.Serialize(log);
@@ -39,7 +39,7 @@ Do not add explanations.
 
             try
             {
-                return JsonSerializer.Deserialize<PlanningResult>(response);
+                return JsonSerializer.Deserialize<List<PlanningResult>>(response);
             }
             catch
             {

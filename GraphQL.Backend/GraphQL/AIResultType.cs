@@ -7,8 +7,15 @@ namespace GraphQLDemo.GraphQL
     {
         public AIResultType()
         {
-            Field<PlanningResultType>("planning");
-            Field<ErrorAnalysisResultType>("analysis");
+            Field<ListGraphType<PlanningResultType>>(
+                "planning",
+                resolve: context => context.Source.Planning ?? new List<PlanningResult>()
+            );
+
+            Field<ListGraphType<ErrorAnalysisResultType>>(
+                "analysis",
+                resolve: context => context.Source.Analysis ?? new List<ErrorAnalysisResult>()
+            );
         }
     }
 }

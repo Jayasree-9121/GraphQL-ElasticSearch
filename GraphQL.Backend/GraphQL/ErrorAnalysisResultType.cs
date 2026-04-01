@@ -10,14 +10,13 @@ namespace GraphQLDemo.GraphQL
             Field(x => x.ErrorType, nullable: true);
             Field(x => x.ErrorSummary, nullable: true);
 
-            Field<ListGraphType<StringGraphType>>("possibleCauses");
-            Field<ListGraphType<StringGraphType>>("occurrenceConditions");
+            Field(x => x.PossibleCauses, type: typeof(ListGraphType<StringGraphType>));
+            Field(x => x.OccurrenceConditions, type: typeof(ListGraphType<StringGraphType>));
 
-            // ✅ ADD THESE TWO (YOUR ERROR FIX)
             Field(x => x.BusinessImpact, nullable: true);
             Field(x => x.Severity, nullable: true);
 
-            Field<ListGraphType<StringGraphType>>("fixSuggestions");
+            Field(x => x.FixSuggestions, type: typeof(ListGraphType<StringGraphType>));
             Field(x => x.RecommendedFix, nullable: true);
         }
     }

@@ -25,17 +25,25 @@ namespace GraphQLDemo.GraphQL
                 }
             );
 
-            FieldAsync<ListGraphType<AppInsightsType>>(
+            FieldAsync<AIResultType>(
                 "searchElasticData",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "text" }
                 ),
                 resolve: async context =>
                 {
-                    var elastic = context.RequestServices.GetRequiredService<IElasticSearch>();
-                    var text = context.GetArgument<string>("text");
-
-                    return await elastic.GetData(text);
+                    try
+                    {
+                        var elastic = context.RequestServices.GetRequiredService<IElasticSearch>();
+                        var text = context.GetArgument<string>("text");
+                        var result = await elastic.GetData(text);
+                        return result;
+                    }
+                    catch(Exception ex)
+                    {
+                        return new AIResult();
+                    }
+                    
                 }
             );
 
@@ -50,7 +58,7 @@ namespace GraphQLDemo.GraphQL
 
                     var log = new ErrorLog
                     {
-                        Message = context.GetArgument<string>("message")
+                        Message = context.GetArgument<List<string>>("message")
                     };
 
                     return await pipeline.Run(log);
